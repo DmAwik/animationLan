@@ -1,0 +1,99 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.MPlayer,
+  Vcl.Imaging.jpeg;
+
+type
+  TForm1 = class(TForm)
+    timerProcess: TTimer;
+    MediaPlayer1: TMediaPlayer;
+    Image1: TImage;
+    procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure timerProcessTimer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+var
+  x, y: integer;
+  k: real;
+  i: integer;
+  P, Q: real;
+
+procedure dancer_body(a, b: integer; k: real; canvas: TCanvas);
+begin
+  with canvas do
+  begin
+    ellipse(round((a - 20) * k * P), round((b - 40) * k * Q),
+      round((a + 20) * k * P), round(b * k * Q));
+    moveto(round(a * k * P), round(b * k * Q));
+    lineto(round(a * k * P), round((b + 60) * k * Q));
+  end;
+end;
+
+procedure dancer_legs1(a, b: integer; k: real; canvas: TCanvas);
+begin
+  with canvas do
+  begin
+    moveto(round(a * k * P), round((b + 60) * k * Q));
+    lineto(round((a + 20) * k * P), round((b + 100) * k * Q));
+    lineto(round((a + 30) * k * P), round((b + 100) * k * Q));
+    moveto(round(a * k * P), round((b + 60) * k * Q));
+    lineto(round((a - 20) * k * P), round((b + 100) * k * Q));
+    lineto(round((a - 30) * k * P), round((b + 100) * k * Q));
+  end;
+end;
+
+procedure dancer_arms1(a, b: integer; k: real; canvas: TCanvas);
+begin
+  with canvas do
+  begin
+    moveto(round(a * k * P), round((b + 20) * k * Q));
+    lineto(round((a + 25) * k * P), round((b + 40) * k * Q));
+    lineto(round((a + 25) * k * P), round((b + 55) * k * Q));
+    moveto(round(a * k * P), round((b + 20) * k * Q));
+    lineto(round((a - 25) * k * P), round((b + 40) * k * Q));
+    lineto(round((a - 25) * k * P), round((b + 55) * k * Q));
+  end;
+end;
+
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+  canvas.Pen.Width := 4;
+  x := 50;
+  y := 50;
+  k := 1;
+  i := 1;
+  timerProcess.Interval := 80;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  MediaPlayer1.FileName := 'C:\Users\Lenovo\Desktop\1231\1.mp3';
+  MediaPlayer1.Open;
+  MediaPlayer1.Play;
+end;
+
+procedure TForm1.timerProcessTimer(Sender: TObject);
+begin
+  P := ClientWidth / 1000;
+  Q := ClientHeight / 600;
+  Repaint;
+end;
+
+end.
